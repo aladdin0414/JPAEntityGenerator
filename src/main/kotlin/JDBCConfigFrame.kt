@@ -31,9 +31,7 @@ class JDBCConfigFrame(private val config: JDBCConfig?) : JFrame(config?.name) {
     private val btConnect = JButton("connect")
     private val jtPackageName = getTextField()
     private val jtExportPath = getTextField()
-//    private val conn: Connection by lazy {
-//        getConnection()
-//    }
+
 
     val jsp = JScrollPane()
 
@@ -81,6 +79,10 @@ class JDBCConfigFrame(private val config: JDBCConfig?) : JFrame(config?.name) {
         jpExportPath.add(jlExportPath)
         jpExportPath.add(jtExportPath)
 
+        /*val jpFileChoose = getPanel()
+        val jFileChooser = JFileChooser()
+        jpFileChoose.add(jFileChooser)*/
+
         jtSchema.addItemListener(schemaSelectListener())
 
         val jpOperation = getPanel()
@@ -113,6 +115,7 @@ class JDBCConfigFrame(private val config: JDBCConfig?) : JFrame(config?.name) {
         add(jpLanguage)
         add(jpPackage)
         add(jpExportPath)
+//        add(jpFileChoose)
         add(jpOperation)
 
         jpTablePanel.preferredSize = Dimension(600, 200)
@@ -236,7 +239,11 @@ class JDBCConfigFrame(private val config: JDBCConfig?) : JFrame(config?.name) {
                 }
             }
             btConnect.isVisible = false
-            jtSchema.selectedItem = config?.schema
+            if (config != null) {
+                jtSchema.selectedItem = config.schema
+            } else {
+                jtSchema.selectedIndex = 0
+            }
         } catch (e: Exception) {
             JOptionPane.showMessageDialog(this, e.message, "connect failure", JOptionPane.ERROR_MESSAGE)
         }
